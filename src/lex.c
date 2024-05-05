@@ -25,7 +25,6 @@
 #include "driver.h"
 #include "typedefs.h"
 
-#include "my-alloca.h"
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
@@ -3452,8 +3451,7 @@ open_include_file (char *buf, char *name, mp_int namelen, char delim)
 
         if (!compat_mode)
         {
-            char * filename;
-            filename = alloca(strlen(current_loc.file->name)+2);
+            char filename[strlen(current_loc.file->name)+2];
             *filename = '/';
             strcpy(filename+1, current_loc.file->name);
             push_c_string(inter_sp, filename);
