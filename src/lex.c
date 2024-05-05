@@ -7628,8 +7628,7 @@ _expand_define (struct defn *p, ident_t * macro)
 
       /* Both buffers are allocated on the first call to the
        * function and reused thereafter. Putting them on the
-       * stack would make _expand_define() reentrant, but
-       * very slow on systems without proper alloca().
+       * stack would make _expand_define() reentrant.
        * Right now the only possibility for a recursive call
        * is an error during the expansion, with error handling requesting
        * another expansion. In this case, reentrancy is not an issue
@@ -8730,12 +8729,12 @@ get_sub_path (char ** args)
         if (*(--buf) == '/')
             rm--;
     len = (buf - current_loc.file->name) + 1;
-    buf = alloca(len + 4);
+    char buf2[len + 4];
     if (compat_mode)
-        sprintf(buf, "\"%.*s\"", len, current_loc.file->name);
+        sprintf(buf2, "\"%.*s\"", len, current_loc.file->name);
     else
-        sprintf(buf, "\"/%.*s\"", len, current_loc.file->name);
-    add_input(buf);
+        sprintf(buf2, "\"/%.*s\"", len, current_loc.file->name);
+    add_input(buf2);
     return NULL;
 } /* get_sub_path() */
 
