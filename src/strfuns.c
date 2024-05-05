@@ -31,7 +31,6 @@
 #include "driver.h"
 #include "typedefs.h"
 
-#include "my-alloca.h"
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -329,14 +328,10 @@ trim_all_spaces (const string_t * txt)
  */
 
 {
-    char * dest;
-    const char * src;
+    char dest[mstrsize(txt)];
+    const char *src;
     size_t dest_ix, src_ix, srclen;
-    string_t * rc;
-
-    dest = alloca(mstrsize(txt));
-    if (dest == NULL)
-        errorf("Stack overflow (%zu bytes)\n", mstrsize(txt));
+    string_t *rc;
 
     src = get_txt((string_t *const)txt);
     srclen = mstrsize(txt);
