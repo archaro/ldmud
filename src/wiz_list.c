@@ -92,8 +92,6 @@
 #include "driver.h"
 #include "typedefs.h"
 
-#include "my-alloca.h"
-
 #include <stdio.h>
 
 #include "wiz_list.h"
@@ -420,9 +418,7 @@ save_error (const char *msg, const char *file, int line)
 
 {
     wiz_list_t *wl;
-    char *copy, *p;
     string_t *name;
-    size_t len;
 
     /* Get the wizard name and the wizlist entry. */
     name = get_wiz_name(file);
@@ -434,8 +430,9 @@ save_error (const char *msg, const char *file, int line)
     if (wl->file_name)
         free_mstring(wl->file_name);
 
-    len = strlen(file);
-    copy = alloca(len + 4); /* May add .c plus the null byte, and / */
+    size_t len = strlen(file);
+    char copy[len + 4]; /* May add .c plus the null byte, and / */
+    char *p;
     *copy = '/';
     strcpy(copy+1, file);
 
