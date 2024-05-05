@@ -1714,16 +1714,13 @@ f_rename (svalue_t *sp)
         if (isdir(to))
         {
             /* Target is a directory; build full target filename. */
-            char *cp;
-            char *newto;
-
-            cp = strrchr(from, '/');
+            char *cp = strrchr(from, '/');
             if (cp)
                 cp++;
             else
                 cp = from;
 
-            newto = alloca(strlen(to) + 1 + strlen(cp) + 1);
+            char newto[strlen(to) + 1 + strlen(cp) + 1];
             sprintf(newto, "%s/%s", to, cp);
             rc = move_file(from, newto);
             break;
@@ -1967,12 +1964,10 @@ v_write_file (svalue_t *sp, int num_arg)
 
             if (f == NULL)
             {
-                char * emsg, * buf, * buf2;
                 int err = errno;
-
-                emsg = strerror(errno);
-                buf = alloca(strlen(emsg)+1);
-                buf2 = alloca(mstrsize(file)+1);
+                char *emsg = strerror(errno);
+                char buf[strlen(emsg)+1];
+                char buf2[mstrsize(file)+1];
                 if (buf && buf2)
                 {
                     strcpy(buf, emsg);
