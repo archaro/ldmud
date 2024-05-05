@@ -68,7 +68,6 @@
 #include "driver.h"
 #include "typedefs.h"
 
-#include "my-alloca.h"
 #include <stdio.h>
 #include <setjmp.h>
 #include <sys/types.h>
@@ -650,11 +649,8 @@ string_to_string (fmt_state_t *st, string_t* obj, size_t index1, size_t index2, 
         }
         else
         {
-            char *tmpstr, *src, *dest;
             size_t tmpsize = 10 * (index2-index1);
-
-            /* Allocate the temporary string */
-            tmpstr = alloca(tmpsize);
+            char tmpstr[tmpsize], *src, *dest;
 
             src = get_txt(obj) + index1;
             dest = tmpstr;
