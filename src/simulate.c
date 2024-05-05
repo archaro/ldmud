@@ -1790,7 +1790,6 @@ load_object_error(const char *msg, const char *name, namechain_t *chain)
 {
     strbuf_t sbuf;
     namechain_t *ptr;
-    char * buf;
 
     strbuf_zero(&sbuf);
 
@@ -1817,10 +1816,7 @@ load_object_error(const char *msg, const char *name, namechain_t *chain)
     strbuf_add(&sbuf, ".\n");
 
     /* Make a local copy of the message so as not to leak memory */
-    buf = alloca(strbuf_length(&sbuf)+1);
-    if (!buf)
-        errorf("Out of stack memory (%zu bytes)\n"
-             , strlen(sbuf.buf)+1);
+    char buf[strbuf_length(&sbuf)+1];
     strbuf_copy(&sbuf, buf);
     strbuf_free(&sbuf);
 
