@@ -23,7 +23,6 @@
 
 #include "typedefs.h"
 
-#include "my-alloca.h"
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
@@ -320,7 +319,6 @@ raise_db_error (db_dat_t *dat)
 
 {
     const char *tmp;
-    char *err_string;
 
     if ( !dat || !(tmp = mysql_error(dat->mysql_dat))[0] )
     {
@@ -329,7 +327,7 @@ raise_db_error (db_dat_t *dat)
         /* NOTREACHED */
        abort();
     }
-    err_string = alloca(strlen(tmp) + 1);
+    char err_string[strlen(tmp) + 1];
     strcpy(err_string, tmp);
     remove_dat(dat);
     errorf("%s\n", err_string);
