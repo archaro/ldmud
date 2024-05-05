@@ -72,8 +72,6 @@
 #include "driver.h"
 #include "typedefs.h"
 
-#include "my-alloca.h"
-
 #include <assert.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -3154,11 +3152,8 @@ get_message (char *buff, size_t *bufflength)
                     }
                     else
                     {
-                        /* buff is limited to MAX_TEXT+4. Additionally,
-                         * get_message() is usually not called recursively or
-                         * from a very high stack depth, so alloca() is 
-                         * probably ok. */
-                        char *snoop_message = alloca(strlen(buff) + 4);
+                        /* buff is limited to MAX_TEXT+4 */
+                        char snoop_message[strlen(buff) + 4];
                         sprintf(snoop_message, "%% %.*s\n", (int)*bufflength, buff);
                         tell_npc_str(snooper, snoop_message);
                     }
