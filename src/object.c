@@ -7609,21 +7609,10 @@ v_save_object (svalue_t *sp, int numarg)
         f = ixopen3(tmp_name, O_CREAT|O_TRUNC|O_WRONLY|O_BINARY, 0640);
 
         if (f < 0) {
-            char * emsg, * buf;
-
-            emsg = strerror(errno);
-            buf = alloca(strlen(emsg)+1);
-            if (buf)
-            {
-                strcpy(buf, emsg);
-                errorf("Could not open %s for a save: %s.\n", tmp_name, buf);
-            }
-            else
-            {
-                perror("save object");
-                errorf("Could not open %s for a save: errno %d.\n"
-                     , tmp_name, errno);
-            }
+            char *emsg = strerror(errno);
+            char buf[strlen(emsg)+1];
+            strcpy(buf, emsg);
+            errorf("Could not open %s for a save: %s.\n", tmp_name, buf);
             /* NOTREACHED */
             return sp;
         }
