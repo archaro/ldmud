@@ -8133,7 +8133,7 @@ printf("DEBUG:   %d context vars, depth %d\n", context->num_locals, depth);
              * we read the locals as they are and store the information
              * in an array.
              */
-            int * lcmap = alloca(context->num_locals * sizeof(int));
+            int lcmap[context->num_locals * sizeof(int)];
             ident_t * id;
             int i;
 
@@ -10470,8 +10470,7 @@ inheritance:
 
               if (!compat_mode)
               {
-                  char * filename;
-                  filename = alloca(strlen(current_loc.file->name)+2);
+                  char filename[strlen(current_loc.file->name)+2];
                   *filename = '/';
                   strcpy(filename+1, current_loc.file->name);
                   push_c_string(inter_sp, filename);
